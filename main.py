@@ -1,9 +1,10 @@
 import re
 from datetime import datetime, timedelta
+import subprocess
 
 SECOND_BEFORE = 7
 SECOND_AFTER = 4
-FILE_NAME = 'filename'
+FILE_NAME = 'filename.mp4'
 FILE_PATH = 'times.txt'
 
 def read_times_from_file(file_path):
@@ -73,17 +74,40 @@ def makes_ffmpeg_script_from_times(times):
         for index, time in enumerate(times):
             time_start = subtract_seconds(time, SECOND_BEFORE)
             time_end = add_seconds(time, SECOND_AFTER)
-            ffmpeg_scrip_list.append((f"ffmpeg -ss {time_start} -to {time_end} -i {FILE_NAME}.mp4 -c copy result{index}.mp4"))
+            number = index + 1
+            command = [
+                "ffmpeg",
+                "-ss", time_start,  # start time
+                "-to", time_end,  # end time
+                "-i", FILE_NAME,  # input file
+                "-c", "copy",  # copy the stream
+                f"result{number}.mp4"  # output file
+            ]
+            ffmpeg_scrip_list.append(command)
         return ffmpeg_scrip_list
 
     except:
         print(f"Error")
         return []
 
+def execute_bash_command(command):
+    """
+    Trim a video using ffmpeg.
+
+    """
+    try:
+        subprocess.check_call(command)
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
+
 # get times
 times = read_times_from_file(FILE_PATH)
 print(times)
 
-# make all the scripts
+# write all the scripts
 scripts = makes_ffmpeg_script_from_times(times)
 print(scripts)
+
+# execute the scripts
+for script in scripts:
+    execute_bash_command(script)
