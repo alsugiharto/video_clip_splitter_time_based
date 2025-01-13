@@ -5,7 +5,8 @@ import subprocess
 SECOND_BEFORE = 7
 SECOND_AFTER = 4
 FILE_NAME = 'filename.mp4'
-FILE_PATH = 'times.txt'
+FILE_TIME_PATH = 'times.txt'
+RESULT_FILE_NAME = 'resultz'
 
 def read_times_from_file(file_path):
     """
@@ -81,7 +82,7 @@ def makes_ffmpeg_script_from_times(times):
                 "-to", time_end,  # end time
                 "-i", FILE_NAME,  # input file
                 "-c", "copy",  # copy the stream
-                f"result{number}.mp4"  # output file
+                f"{RESULT_FILE_NAME}_{number}.mp4"  # output file
             ]
             ffmpeg_scrip_list.append(command)
         return ffmpeg_scrip_list
@@ -101,7 +102,7 @@ def execute_bash_command(command):
         print(f"Error: {e}")
 
 # get times
-times = read_times_from_file(FILE_PATH)
+times = read_times_from_file(FILE_TIME_PATH)
 print(times)
 
 # write all the scripts
