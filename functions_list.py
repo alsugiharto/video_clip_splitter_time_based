@@ -62,6 +62,33 @@ def subtract_seconds(time_str, seconds):
     new_time = time - timedelta(seconds=seconds)
     return new_time.strftime('%H:%M:%S')
 
+def makes_ffmpeg_script_from_times_between(file_name, result_file_name, times_list):
+    """
+    makes list of ffmpeg script based on list of times
+
+    """
+    try:
+        ffmpeg_scrip_list = []
+        number = 0
+        for time_start, time_end in times_list:
+            time_start = time_start
+            time_end = time_end
+            number = number + 1
+            command = [
+                "ffmpeg",
+                "-ss", time_start,  # start time
+                "-to", time_end,  # end time
+                "-i", file_name,  # input file
+                "-c", "copy",  # copy the stream
+                f"{result_file_name}_{number}.mp4"  # output file
+            ]
+            ffmpeg_scrip_list.append(command)
+        return ffmpeg_scrip_list
+
+    except:
+        print(f"Error")
+        return []
+
 def makes_ffmpeg_script_from_times(file_name, result_file_name, times, second_before, second_after):
     """
     makes list of ffmpeg script based on list of times
