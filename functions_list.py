@@ -2,9 +2,6 @@ import re
 from datetime import datetime, timedelta
 import subprocess
 
-# try this working coommand to combine video "ffmpeg -f concat -i input.txt -c copy summary.mp4"
-# remember you need input file first
-
 def read_times_from_file(file_path):
     """
     Reads a list of times from a text file.
@@ -115,6 +112,27 @@ def makes_ffmpeg_script_from_times(file_name, result_file_name, times, second_be
         print(f"Error")
         return []
 
+def makes_ffmpeg_script_for_summary(file_name, summary_file_name):
+    """
+    makes list of ffmpeg script based on list of times
+    
+    """
+    try:
+        ffmpeg_scrip_list = []
+        command = [
+            "ffmpeg",
+            "-f","concat",  # start time
+            "-i", file_name,  # input file
+            "-c", "copy",  # copy the stream
+            f"{summary_file_name}.mp4"  # output file
+        ]
+        ffmpeg_scrip_list.append(command)
+        return ffmpeg_scrip_list
+
+    except:
+        print(f"Error")
+        return []
+
 def execute_bash_command(command):
     """
     Trim a video using ffmpeg.
@@ -125,3 +143,15 @@ def execute_bash_command(command):
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
 
+def write_file_with_numbers(file_name, video_file_name, num_lines):
+    with open(file_name, 'w') as file:
+        for i in range(1, num_lines + 1):
+            file.write(f"file '{video_file_name}_{i}.mp4'\n")
+
+def read_time_ranges(file_path):
+    time_ranges = []
+    with open(file_path, 'r') as file:
+        for line in file:
+            start_time, end_time = line.strip().split('-')
+            time_ranges.append((start_time, end_time))
+    return time_ranges
