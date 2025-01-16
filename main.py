@@ -2,11 +2,14 @@ import re
 from datetime import datetime, timedelta
 import subprocess
 
+# try this working coommand to combine video "ffmpeg -f concat -i input.txt -c copy summary.mp4"
+# remember you need input file first
+
 SECOND_BEFORE = 7
 SECOND_AFTER = 4
 FILE_NAME = 'filename.mp4'
 FILE_TIME_PATH = 'times.txt'
-RESULT_FILE_NAME = 'resultz'
+RESULT_FILE_NAME = 'clip_game14_2025'
 
 def read_times_from_file(file_path):
     """
