@@ -132,6 +132,48 @@ def makes_ffmpeg_script_for_summary(file_name, summary_file_name):
     except:
         print(f"Error")
         return []
+    
+def generate_ffmpeg_command(input1, input2, output_file, scale_width=1280, encoder="mpeg4", quality=2):
+    """
+    Generates an FFmpeg command to stack two videos vertically.
+
+    Args:
+        input1 (str): Path to the first input video file (e.g., "input1.mp4").
+        input2 (str): Path to the second input video file (e.g., "input2.mp4").
+        output_file (str): Output file name (e.g., "output.mp4").
+        scale_width (int): Width to scale the videos to (default: 1280).
+        encoder (str): Video encoder to use (default: "mpeg4").
+        quality (int): Quality level for the encoder (default: 2, lower is better).
+
+    Returns:
+        list: FFmpeg command as a list of arguments.
+    """
+    # Base FFmpeg command
+    command = ["ffmpeg"]
+
+    # Add input files
+    command.extend(["-i", input1])
+    command.extend(["-i", input2])
+
+    # Add filter_complex for scaling and stacking
+    filter_complex = (
+        f"[0:v]scale={scale_width}:-1:flags=lanczos[top];"
+        f"[1:v]scale={scale_width}:-1:flags=lanczos[bottom];"
+        f"[top][bottom]vstack=inputs=2"
+    )
+    command.extend(["-filter_complex", filter_complex])
+
+    # Add encoder and quality settings
+    command.extend(["-c:v", encoder])
+    if encoder == "mpeg4":
+        command.extend(["-qscale:v", str(quality)])
+    elif encoder == "libx264":
+        command.extend(["-crf", str(quality), "-preset", "slow"])
+
+    # Add output file
+    command.append(output_file)
+
+    return command
 
 def execute_bash_command(command):
     """
