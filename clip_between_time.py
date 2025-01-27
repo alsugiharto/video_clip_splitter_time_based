@@ -33,9 +33,9 @@ def main():
         functions_list.execute_bash_command(script)
 
 if __name__ == "__main__":
-    FILE_NAME_INPUT_MAIN_VIDEO = 'filename.mp4'
-    FILE_NAME_FOR_PREFIX_RESULT = 'clip_game14_2025_between'
+    FILE_NAME_INPUT_MAIN_VIDEO = 'source_video/filename.mp4'
+    FILE_NAME_FOR_PREFIX_RESULT = 'result_video/clip_game14_2025_between'
     FILE_NAME_FOR_INPUT_TIME_BETWEEN = 'times_between.txt'
     FILE_NAME_FOR_SUMMARY_COMMMAND = 'input_summary_bash.txt'
-    FILE_NAME_FOR_SUMMARY = 'summary_between.mp4'
+    FILE_NAME_FOR_SUMMARY = 'result_video/summary_between.mp4'
     main()
