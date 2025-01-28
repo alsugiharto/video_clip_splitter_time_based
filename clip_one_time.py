@@ -35,9 +35,9 @@ def main():
 if __name__ == "__main__":
     FILE_NAME_INPUT_MAIN_VIDEO = 'source_video/filename2.mp4'
     FILE_NAME_FOR_PREFIX_RESULT = 'result_video/clip_game14_2025'
+    FILE_NAME_FOR_SUMMARY = 'result_video/summary_game14_2025.mp4'
     FILE_NAME_FOR_INPUT_TIME_ONE = 'times_one.txt'
     FILE_NAME_FOR_SUMMARY_COMMMAND = 'input_summary_bash.txt'
-    FILE_NAME_FOR_SUMMARY = 'result_video/summary_one.mp4'
     SECOND_BEFORE = 7
     SECOND_AFTER = 4
     main()
