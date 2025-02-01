@@ -183,6 +183,11 @@ def execute_bash_command(command):
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
 
+def write_file_with_numbers_with_score(file_name, video_file_name, num_lines, postfix_for_score):
+    with open(file_name, 'w') as file:
+        for i in range(1, num_lines + 1):
+            file.write(f"file '{video_file_name}_{i}_{postfix_for_score}.mp4'\n")
+
 def write_file_with_numbers(file_name, video_file_name, num_lines):
     with open(file_name, 'w') as file:
         for i in range(1, num_lines + 1):

@@ -33,16 +33,7 @@ def create_text(text, vertical_position, start_time, end_time):
 
 time_to_seconds = lambda s: sum(int(x) * 60 ** i for i, x in enumerate(reversed(s.split(":"))))
 
-def add_text_to_video(input_video, output_video_name, times, who_scores):
-
-    # Load the video
-    video = VideoFileClip(input_video)
-    video_list = []
-    video_list.append(video)
-
-    # Get the video dimensions
-    width, height = video.size
-    vertical_position = height*0.8
+def add_text_to_video(input_video_name, postfix_scorename, times, who_scores):
 
     # get the text from score
     text_score = []
@@ -60,19 +51,28 @@ def add_text_to_video(input_video, output_video_name, times, who_scores):
     for index, time in enumerate(times):
         times_in_seconds_format.append(time_to_seconds(time))
             
-    # add score 0 - 0 in the beginning
-    video_list.append(create_text("0 - 0", vertical_position, 0, times_in_seconds_format[0]))
     for index, time in enumerate(times_in_seconds_format):
-        if index == len(times) - 1:
-            video_list.append(create_text(text_score[index], vertical_position, time, video.duration))
-        else:        
-            video_list.append(create_text(text_score[index], vertical_position, time, times_in_seconds_format[index+1]))
-    
-    # Composite video
-    video = CompositeVideoClip(video_list)
 
-    # Output the video
-    output_video = output_video_name
-    video.write_videofile(output_video, codec="libx264")
+        # Load the video
+        video = VideoFileClip(f"{input_video_name}_{index+1}.mp4")
+        video_list = []
+        video_list.append(video)
 
-    return output_video
+        # Get the video dimensions
+        width, height = video.size
+        vertical_position = height*0.8
+
+        if index == 0:
+            video_list.append(create_text("0 - 0", vertical_position, 0, 7))
+        else:
+            video_list.append(create_text(text_score[index-1], vertical_position, 0, 7))
+        video_list.append(create_text(text_score[index], vertical_position, 7, 11))
+        
+        # Composite video
+        video = CompositeVideoClip(video_list)
+
+        # Output the video
+        output_video = f"{input_video_name}_{index+1}_{postfix_scorename}.mp4"
+        video.write_videofile(output_video, codec="libx264")
+
+    return None
