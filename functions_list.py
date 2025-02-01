@@ -41,8 +41,6 @@ def add_seconds(time_str, seconds):
     time = datetime.strptime(time_str, '%H:%M:%S')
     new_time = time + timedelta(seconds=seconds)
     return new_time.strftime('%H:%M:%S')
-    
-from datetime import datetime, timedelta
 
 def subtract_seconds(time_str, seconds):
     """
@@ -124,7 +122,7 @@ def makes_ffmpeg_script_for_summary(file_name, summary_file_name):
             "-f","concat",  # start time
             "-i", file_name,  # input file
             "-c", "copy",  # copy the stream
-            f"{summary_file_name}.mp4"  # output file
+            f"{summary_file_name}"  # output file
         ]
         ffmpeg_scrip_list.append(command)
         return ffmpeg_scrip_list
