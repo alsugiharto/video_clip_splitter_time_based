@@ -44,7 +44,7 @@ def main():
 if __name__ == "__main__":
     FILE_NAME_INPUT_MAIN_VIDEO = 'source_video/filename.mp4'
     FILE_NAME_FOR_PREFIX_RESULT = 'result_video/clip_game14_2025'
-    FILE_NAME_FOR_SUMMARY = 'result_video/summary_with_score'
+    FILE_NAME_FOR_SUMMARY = 'result_video/summary_with_score.mp4'
     FILE_NAME_FOR_INPUT_TIME_ONE = 'times_one.txt'
     FILE_NAME_FOR_INPUT_WHO_SCORE = 'who_score.txt'
     FILE_NAME_FOR_INPUT_TIME_ONE = 'times_one.txt'
